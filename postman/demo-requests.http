@@ -1,0 +1,59 @@
+### Real-Time Food Delivery Updates - demo requests
+### Import into Postman as raw text, or run each block with the VS Code
+### "REST Client" extension, or copy the curl commands below.
+
+### 1. Create an order (published as PLACED)
+POST http://localhost:4000/orders
+Content-Type: application/json
+
+{
+  "restaurantId": "resto-1",
+  "customerId": "cust-1",
+  "items": ["Pad Thai", "Thai Iced Tea"]
+}
+
+### 2. Restaurant confirms the order
+PATCH http://localhost:4000/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "CONFIRMED"
+}
+
+### 3. Restaurant marks the order ready for pickup
+### -> this is the exact moment from the proposal's pain point:
+###    the rider service used to find out late or not at all
+PATCH http://localhost:4000/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "READY_FOR_PICKUP"
+}
+
+### 4. A rider picks the order up
+PATCH http://localhost:4000/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "PICKED_UP",
+  "riderId": "rider-9"
+}
+
+### 5. Order delivered
+PATCH http://localhost:4000/orders/1/status
+Content-Type: application/json
+
+{
+  "status": "DELIVERED"
+}
+
+### --- Now check that every downstream service learned about it independently ---
+
+### Customer app feed
+GET http://localhost:4001/feed/cust-1
+
+### Rider pickup pool (should be empty again after PICKED_UP)
+GET http://localhost:4002/pickup-pool
+
+### Notification log
+GET http://localhost:4003/notifications

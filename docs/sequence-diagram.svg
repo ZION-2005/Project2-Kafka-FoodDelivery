@@ -1,0 +1,67 @@
+<svg viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555" />
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1000" height="620" fill="#ffffff"/>
+  <text x="500" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a1a">
+    Sequence: "Restaurant marks order ready" event flow
+  </text>
+
+  <!-- lifelines -->
+  <g font-size="13" font-weight="bold" fill="#1a1a1a">
+    <text x="90" y="66" text-anchor="middle">Restaurant</text>
+    <text x="290" y="66" text-anchor="middle">Order Service</text>
+    <text x="500" y="66" text-anchor="middle">Kafka</text>
+    <text x="700" y="66" text-anchor="middle">Rider Service</text>
+    <text x="900" y="66" text-anchor="middle">Customer Service</text>
+  </g>
+  <g stroke="#bbb" stroke-width="1.5">
+    <line x1="90" y1="76" x2="90" y2="580"/>
+    <line x1="290" y1="76" x2="290" y2="580"/>
+    <line x1="500" y1="76" x2="500" y2="580"/>
+    <line x1="700" y1="76" x2="700" y2="580"/>
+    <line x1="900" y1="76" x2="900" y2="580"/>
+  </g>
+
+  <!-- messages -->
+  <g font-size="12.5" fill="#222">
+    <line x1="90" y1="110" x2="290" y2="110" stroke="#333" stroke-width="1.8" marker-end="url(#arrow2)"/>
+    <text x="190" y="102" text-anchor="middle">PATCH /orders/1/status {READY_FOR_PICKUP}</text>
+
+    <line x1="290" y1="150" x2="500" y2="150" stroke="#333" stroke-width="1.8" marker-end="url(#arrow2)"/>
+    <text x="395" y="142" text-anchor="middle">produce order.status.updated</text>
+
+    <rect x="470" y="165" width="60" height="26" fill="#fff3e0" stroke="#e07b00"/>
+    <text x="500" y="182" text-anchor="middle" font-size="11">event stored</text>
+
+    <line x1="500" y1="220" x2="700" y2="220" stroke="#333" stroke-width="1.8" marker-end="url(#arrow2)"/>
+    <text x="600" y="212" text-anchor="middle">deliver to rider-service-group</text>
+
+    <line x1="500" y1="260" x2="900" y2="260" stroke="#333" stroke-width="1.8" marker-end="url(#arrow2)"/>
+    <text x="700" y="252" text-anchor="middle">deliver to customer-service-group</text>
+
+    <rect x="640" y="280" width="120" height="26" fill="#e6f4ea" stroke="#1e8e3e"/>
+    <text x="700" y="297" text-anchor="middle" font-size="11">adds to pickup pool</text>
+
+    <rect x="830" y="280" width="140" height="26" fill="#e6f4ea" stroke="#1e8e3e"/>
+    <text x="900" y="297" text-anchor="middle" font-size="11">appends to customer feed</text>
+
+    <line x1="90" y1="340" x2="290" y2="340" stroke="#999" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrow2)"/>
+    <text x="190" y="332" text-anchor="middle" fill="#666">meanwhile: rider service restarts / was down</text>
+
+    <rect x="640" y="350" width="180" height="30" fill="#fdecea" stroke="#c5221f"/>
+    <text x="700" y="369" text-anchor="middle" font-size="11">no HTTP call was lost -</text>
+    <text x="700" y="382" text-anchor="middle" font-size="11" fill="#7a1f1a">Kafka replays from last offset</text>
+
+    <line x1="700" y1="410" x2="500" y2="410" stroke="#333" stroke-width="1.8" stroke-dasharray="2,2" marker-end="url(#arrow2)"/>
+    <text x="600" y="402" text-anchor="middle">re-consume from committed offset on restart</text>
+  </g>
+
+  <rect x="60" y="470" width="880" height="90" rx="10" fill="#e8f0fe" stroke="#3b6fd6" stroke-width="1.5"/>
+  <text x="80" y="495" font-size="13" font-weight="bold" fill="#1a1a1a">Why this matters (the pain point from the proposal):</text>
+  <text x="80" y="516" font-size="12.5" fill="#333">Previously the restaurant's "ready" update was pushed directly to the rider service.</text>
+  <text x="80" y="535" font-size="12.5" fill="#333">If the rider service was briefly unavailable, that specific update never arrived - a real double-booking / missed-pickup risk.</text>
+  <text x="80" y="552" font-size="12.5" fill="#333">Kafka decouples the write from the reads, so every consumer eventually gets every event, in order, exactly once per partition.</text>
+</svg>
