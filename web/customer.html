@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saffron &middot; Track Order</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">S</span>
+        <span class="brand-name">Saffron</span>
+      </a>
+      <nav class="topnav">
+        <span class="nav-item active">Customer</span>
+      </nav>
+    </header>
+
+    <main class="narrow-layout">
+      <div class="identify-card" id="identifyCard">
+        <h2>Track your order</h2>
+        <p class="muted">Enter the name you used when ordering.</p>
+        <form id="identifyForm">
+          <input type="text" id="customerIdInput" placeholder="e.g. Mya Mya" required />
+          <button type="submit" class="btn btn-primary">Track</button>
+        </form>
+      </div>
+
+      <div id="trackingView" class="hidden">
+        <div class="tracking-head">
+          <div>
+            <div class="muted">Tracking orders for</div>
+            <h2 id="customerLabel">&mdash;</h2>
+          </div>
+          <button class="btn btn-ghost" id="switchUserBtn">Not you?</button>
+        </div>
+
+        <div id="orderList"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="customer.js"></script>
+</body>
+</html>

@@ -1,15 +1,14 @@
 const ORDER_API = "http://localhost:4000";
-const RIDER_API = "http://localhost:4002";
-const NOTIFICATION_API = "http://localhost:4003";
-
 const POLL_MS = 2000;
 
+// Restaurant only owns the order up through READY_FOR_PICKUP - PICKED_UP -> DELIVERED
+// is the rider's job, done from the Rider app instead.
 const STATUS_FLOW = {
   PLACED: { next: "CONFIRMED", label: "Confirm" },
   CONFIRMED: { next: "PREPARING", label: "Start Preparing" },
   PREPARING: { next: "READY_FOR_PICKUP", label: "Mark Ready" },
   READY_FOR_PICKUP: null,
-  PICKED_UP: { next: "DELIVERED", label: "Mark Delivered" },
+  PICKED_UP: null,
   DELIVERED: null,
   CANCELLED: null,
 };
@@ -25,20 +24,13 @@ function timeAgo(iso) {
   return `${hrs}h ago`;
 }
 
-async function patchStatus(orderId, status, riderId) {
-  const body = { status };
-  if (riderId) body.riderId = riderId;
+async function patchStatus(orderId, status) {
   await fetch(`${ORDER_API}/orders/${orderId}/status`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ status }),
   });
-  refreshAll();
-}
-
-function randomRiderId() {
-  const names = ["Ren", "Kaito", "Mira", "Suri", "Tao", "Nok"];
-  return `${names[Math.floor(Math.random() * names.length)]}-${Math.floor(Math.random() * 90 + 10)}`;
+  refreshOrders();
 }
 
 function orderCard(order) {
@@ -48,7 +40,7 @@ function orderCard(order) {
   if (flow) {
     actions += `<button class="action-btn primary" data-action="advance" data-id="${order.orderId}" data-status="${flow.next}">${flow.label}</button>`;
   }
-  if (order.status !== "DELIVERED" && order.status !== "CANCELLED" && order.status !== "PICKED_UP") {
+  if (["PLACED", "CONFIRMED", "PREPARING"].includes(order.status)) {
     actions += `<button class="action-btn danger" data-action="cancel" data-id="${order.orderId}">Cancel</button>`;
   }
   const riderLine = order.riderId ? `<div class="order-rider">Rider: ${order.riderId}</div>` : "";
@@ -97,65 +89,6 @@ async function refreshOrders() {
   });
 }
 
-async function refreshRiderBoard() {
-  const res = await fetch(`${RIDER_API}/pickup-pool`);
-  const jobs = await res.json();
-
-  document.getElementById("riderCount").textContent = `${jobs.length} open`;
-  const list = document.getElementById("riderList");
-
-  list.innerHTML = jobs.length
-    ? jobs
-        .map(
-          (j) => `
-      <div class="rider-job">
-        <div class="rider-job-top">
-          <span class="rider-job-id">#${j.orderId}</span>
-          <span class="rider-job-meta">${timeAgo(j.updatedAt)}</span>
-        </div>
-        <div class="rider-job-meta">${j.customerId} &middot; ${j.restaurantId}</div>
-        <button class="claim-btn" data-action="claim" data-id="${j.orderId}">Accept Pickup</button>
-      </div>
-    `
-        )
-        .join("")
-    : `<div class="empty-state">No pickups waiting right now.</div>`;
-
-  document.querySelectorAll('[data-action="claim"]').forEach((btn) => {
-    btn.addEventListener("click", () => patchStatus(btn.dataset.id, "PICKED_UP", randomRiderId()));
-  });
-}
-
-async function refreshNotifications() {
-  const res = await fetch(`${NOTIFICATION_API}/notifications`);
-  const notifications = await res.json();
-
-  document.getElementById("notifBadge").textContent = notifications.length;
-  const list = document.getElementById("notifList");
-
-  const recent = notifications.slice(-8).reverse();
-  list.innerHTML = recent.length
-    ? recent
-        .map(
-          (n) => `
-      <div class="notif-item">
-        <div class="notif-text">${n.text}</div>
-        <div class="notif-time">${timeAgo(n.sentAt)}</div>
-      </div>
-    `
-        )
-        .join("")
-    : `<div class="empty-state">Nothing sent yet.</div>`;
-}
-
-async function refreshAll() {
-  try {
-    await Promise.all([refreshOrders(), refreshRiderBoard(), refreshNotifications()]);
-  } catch (err) {
-    console.error("refresh failed", err);
-  }
-}
-
 // Modal wiring
 const backdrop = document.getElementById("modalBackdrop");
 document.getElementById("newOrderBtn").addEventListener("click", () => backdrop.classList.add("open"));
@@ -179,8 +112,8 @@ document.getElementById("newOrderForm").addEventListener("submit", async (e) => 
 
   e.target.reset();
   backdrop.classList.remove("open");
-  refreshAll();
+  refreshOrders();
 });
 
-refreshAll();
-setInterval(refreshAll, POLL_MS);
+refreshOrders();
+setInterval(refreshOrders, POLL_MS);
