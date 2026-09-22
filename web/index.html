@@ -6,43 +6,42 @@
 <title>Saffron</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="landing-body">
-  <div class="landing">
-    <div class="landing-brand">
-      <span class="brand-mark">S</span>
-      <span class="brand-name">Saffron</span>
-    </div>
-    <h1 class="landing-title">One order, three apps.</h1>
-    <p class="landing-sub">Each role below is its own independent app. They never call each other directly &mdash; they all just read from the same order stream.</p>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">S</span>
+        <span class="brand-name">Saffron</span>
+      </div>
+      <nav class="topnav">
+        <span class="nav-item active">Apps</span>
+      </nav>
+    </header>
 
-    <div class="role-grid">
-      <a class="role-card" href="restaurant.html">
-        <div class="role-icon" style="background:#fdece5; color:#a8360f;">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3z"/><path d="M5 7v13a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7"/><path d="M10 12h4"/></svg>
-        </div>
-        <h2>Restaurant</h2>
-        <p>Manage incoming orders, confirm them, and mark them ready for pickup.</p>
-        <span class="role-link">Open dispatch board &rarr;</span>
-      </a>
+    <main class="portal">
+      <div class="role-grid">
+        <a class="role-card" href="restaurant.html">
+          <div class="role-icon" style="background:#fdece5; color:#a8360f;">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v4H3z"/><path d="M5 7v13a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7"/><path d="M10 12h4"/></svg>
+          </div>
+          <h2>Restaurant</h2>
+        </a>
 
-      <a class="role-card" href="customer.html">
-        <div class="role-icon" style="background:#e8f0fe; color:#1d4ed8;">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
-        </div>
-        <h2>Customer</h2>
-        <p>Track your order in real time, from placed to delivered.</p>
-        <span class="role-link">Track my order &rarr;</span>
-      </a>
+        <a class="role-card" href="customer.html">
+          <div class="role-icon" style="background:#e8f0fe; color:#1d4ed8;">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+          </div>
+          <h2>Customer</h2>
+        </a>
 
-      <a class="role-card" href="rider.html">
-        <div class="role-icon" style="background:#eafaf0; color:#0f7a3d;">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 18h6M9 18l2-8h4l2 4M13 10l-2-4H7"/></svg>
-        </div>
-        <h2>Rider</h2>
-        <p>Browse pickups ready to go, claim one, and complete the delivery.</p>
-        <span class="role-link">Open rider app &rarr;</span>
-      </a>
-    </div>
+        <a class="role-card" href="rider.html">
+          <div class="role-icon" style="background:#eafaf0; color:#0f7a3d;">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 18h6M9 18l2-8h4l2 4M13 10l-2-4H7"/></svg>
+          </div>
+          <h2>Rider</h2>
+        </a>
+      </div>
+    </main>
   </div>
 </body>
 </html>
