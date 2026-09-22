@@ -12,7 +12,6 @@ const consumer = kafka.consumer({ groupId: GROUP_ID });
 
 const notifications = [];
 
-// Stand-in for a real push/SMS provider - logs instead of calling one out.
 function sendPushNotification(event) {
   const notification = {
     to: `customer:${event.customerId}`,

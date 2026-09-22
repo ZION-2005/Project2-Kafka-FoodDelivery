@@ -41,13 +41,13 @@ Project2-Kafka-FoodDelivery/
 
 ## Technology of interest
 
-- **Apache Kafka** (via `bitnami/kafka`, single-node KRaft mode - no
+- **Apache Kafka** (via `apache/kafka:3.7.0`, single-node KRaft mode - no
   Zookeeper needed) - the event-streaming platform itself.
 - **Node.js + Express** - HTTP APIs for each service.
 - **KafkaJS** - the Kafka client library used by every service.
 - **Docker Compose** - runs Kafka, Kafka UI, and all four microservices with
   one command.
-- **Kafka UI** (`provectuslabs/kafka-ui`, at http://localhost:8080) - visual
+- **Kafka UI** (`provectuslabs/kafka-ui`, at http://localhost:8090) - visual
   proof during the demo that the topic and consumer groups are real.
 
 ## Running it

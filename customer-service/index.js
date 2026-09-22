@@ -10,15 +10,10 @@ const GROUP_ID = "customer-service-group";
 const kafka = new Kafka({ clientId: "customer-service", brokers: [KAFKA_BROKER] });
 const consumer = kafka.consumer({ groupId: GROUP_ID });
 
-// Everything this service knows, learned purely from Kafka events -
-// it never talks to order-service directly.
 const feedByCustomer = new Map();
 
 async function connectWithRetry() {
   await consumer.connect();
-  // The topic may not exist yet if order-service hasn't published its first
-  // event - retry instead of crashing, which also doubles as the "service
-  // recovers after being unavailable" resilience story from the proposal.
   for (let attempt = 1; ; attempt++) {
     try {
       await consumer.subscribe({ topic: TOPIC, fromBeginning: true });

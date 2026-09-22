@@ -2,8 +2,6 @@ const ORDER_API = "http://localhost:4000";
 const POLL_MS = 2000;
 const SESSION_KEY = "saffron_staff";
 
-// Restaurant only owns the order up through READY_FOR_PICKUP - PICKED_UP -> DELIVERED
-// is the rider's job, done from the Rider app instead.
 const STATUS_FLOW = {
   PLACED: { next: "CONFIRMED", label: "Confirm" },
   CONFIRMED: { next: "PREPARING", label: "Start Preparing" },
