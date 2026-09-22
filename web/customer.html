@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Saffron &middot; Track Order</title>
+<title>Saffron &middot; Customer</title>
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -17,29 +17,46 @@
       <nav class="topnav">
         <span class="nav-item active">Customer</span>
       </nav>
+      <div class="topbar-right hidden" id="sessionBar">
+        <span class="session-name" id="sessionName"></span>
+        <button class="btn btn-ghost" id="signOutBtn">Sign out</button>
+      </div>
     </header>
 
-    <main class="narrow-layout">
-      <div class="identify-card" id="identifyCard">
-        <h2>Track your order</h2>
-        <p class="muted">Enter the name you used when ordering.</p>
+    <div class="identify-screen" id="identifyCard">
+      <div class="identify-card">
+        <h2>Sign in</h2>
+        <p class="muted">Use your name to order and track deliveries.</p>
         <form id="identifyForm">
-          <input type="text" id="customerIdInput" placeholder="e.g. Mya Mya" required />
-          <button type="submit" class="btn btn-primary">Track</button>
+          <input type="text" id="customerIdInput" placeholder="Full name" required />
+          <button type="submit" class="btn btn-primary">Continue</button>
         </form>
       </div>
+    </div>
 
-      <div id="trackingView" class="hidden">
-        <div class="tracking-head">
-          <div>
-            <div class="muted">Tracking orders for</div>
-            <h2 id="customerLabel">&mdash;</h2>
-          </div>
-          <button class="btn btn-ghost" id="switchUserBtn">Not you?</button>
+    <main class="order-layout hidden" id="orderView">
+      <section class="menu-panel">
+        <div class="panel-header">
+          <h2>Order Food</h2>
         </div>
 
-        <div id="orderList"></div>
-      </div>
+        <div class="restaurant-tabs" id="restaurantTabs"></div>
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+
+      <aside class="cart-panel">
+        <div class="side-card">
+          <div class="side-card-head"><h3>Your Cart</h3></div>
+          <div id="cartItems" class="cart-items"></div>
+          <div class="cart-total" id="cartTotal"></div>
+          <button class="btn btn-primary cart-checkout" id="checkoutBtn" disabled>Place Order</button>
+        </div>
+
+        <div class="side-card">
+          <div class="side-card-head"><h3>Your Orders</h3></div>
+          <div id="orderList" class="order-history"></div>
+        </div>
+      </aside>
     </main>
   </div>
 

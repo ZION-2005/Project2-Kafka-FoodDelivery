@@ -1,6 +1,7 @@
 const ORDER_API = "http://localhost:4000";
 const RIDER_API = "http://localhost:4002";
 const POLL_MS = 2000;
+const SESSION_KEY = "saffron_rider";
 
 let currentRider = null;
 let pollHandle = null;
@@ -86,26 +87,36 @@ async function refreshRiderView() {
   });
 }
 
-function goOnline(riderId) {
+function startSession(riderId) {
   currentRider = riderId;
+  localStorage.setItem(SESSION_KEY, riderId);
+
   document.getElementById("identifyCard").classList.add("hidden");
   document.getElementById("riderView").classList.remove("hidden");
-  document.getElementById("riderLabel").textContent = riderId;
+  document.getElementById("sessionBar").classList.remove("hidden");
+  document.getElementById("sessionName").textContent = riderId;
+
   refreshRiderView();
   if (pollHandle) clearInterval(pollHandle);
   pollHandle = setInterval(refreshRiderView, POLL_MS);
 }
 
+function endSession() {
+  currentRider = null;
+  localStorage.removeItem(SESSION_KEY);
+  if (pollHandle) clearInterval(pollHandle);
+  document.getElementById("riderView").classList.add("hidden");
+  document.getElementById("sessionBar").classList.add("hidden");
+  document.getElementById("identifyCard").classList.remove("hidden");
+  document.getElementById("riderIdInput").value = "";
+}
+
 document.getElementById("identifyForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const value = document.getElementById("riderIdInput").value.trim();
-  if (value) goOnline(value);
+  if (value) startSession(value);
 });
+document.getElementById("signOutBtn").addEventListener("click", endSession);
 
-document.getElementById("signOutBtn").addEventListener("click", () => {
-  currentRider = null;
-  if (pollHandle) clearInterval(pollHandle);
-  document.getElementById("riderView").classList.add("hidden");
-  document.getElementById("identifyCard").classList.remove("hidden");
-  document.getElementById("riderIdInput").value = "";
-});
+const saved = localStorage.getItem(SESSION_KEY);
+if (saved) startSession(saved);

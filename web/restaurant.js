@@ -1,5 +1,6 @@
 const ORDER_API = "http://localhost:4000";
 const POLL_MS = 2000;
+const SESSION_KEY = "saffron_staff";
 
 // Restaurant only owns the order up through READY_FOR_PICKUP - PICKED_UP -> DELIVERED
 // is the rider's job, done from the Rider app instead.
@@ -14,6 +15,7 @@ const STATUS_FLOW = {
 };
 
 const COLUMNS = ["PLACED", "CONFIRMED", "PREPARING", "READY_FOR_PICKUP", "PICKED_UP", "DELIVERED"];
+let pollHandle = null;
 
 function timeAgo(iso) {
   const diff = Math.max(0, Date.now() - new Date(iso).getTime());
@@ -89,31 +91,33 @@ async function refreshOrders() {
   });
 }
 
-// Modal wiring
-const backdrop = document.getElementById("modalBackdrop");
-document.getElementById("newOrderBtn").addEventListener("click", () => backdrop.classList.add("open"));
-document.getElementById("closeModalBtn").addEventListener("click", () => backdrop.classList.remove("open"));
-document.getElementById("cancelModalBtn").addEventListener("click", () => backdrop.classList.remove("open"));
-backdrop.addEventListener("click", (e) => {
-  if (e.target === backdrop) backdrop.classList.remove("open");
-});
+function startSession(name) {
+  localStorage.setItem(SESSION_KEY, name);
+  document.getElementById("identifyCard").classList.add("hidden");
+  document.getElementById("boardView").classList.remove("hidden");
+  document.getElementById("sessionBar").classList.remove("hidden");
+  document.getElementById("sessionName").textContent = name;
 
-document.getElementById("newOrderForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const restaurantId = document.getElementById("restaurantId").value;
-  const customerId = document.getElementById("customerId").value.trim();
-  const items = document.getElementById("items").value.split(",").map((s) => s.trim()).filter(Boolean);
-
-  await fetch(`${ORDER_API}/orders`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ restaurantId, customerId, items }),
-  });
-
-  e.target.reset();
-  backdrop.classList.remove("open");
   refreshOrders();
-});
+  if (pollHandle) clearInterval(pollHandle);
+  pollHandle = setInterval(refreshOrders, POLL_MS);
+}
 
-refreshOrders();
-setInterval(refreshOrders, POLL_MS);
+function endSession() {
+  localStorage.removeItem(SESSION_KEY);
+  if (pollHandle) clearInterval(pollHandle);
+  document.getElementById("boardView").classList.add("hidden");
+  document.getElementById("sessionBar").classList.add("hidden");
+  document.getElementById("identifyCard").classList.remove("hidden");
+  document.getElementById("staffNameInput").value = "";
+}
+
+document.getElementById("identifyForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const value = document.getElementById("staffNameInput").value.trim();
+  if (value) startSession(value);
+});
+document.getElementById("signOutBtn").addEventListener("click", endSession);
+
+const saved = localStorage.getItem(SESSION_KEY);
+if (saved) startSession(saved);

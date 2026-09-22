@@ -61,9 +61,18 @@ docker compose up --build
 Wait until you see `[order-service] listening on :4000` and similar lines
 for the other three services. Then either:
 
-- Open the dispatch console at **http://localhost:8081** - a small web UI
-  for creating orders, advancing their status, claiming pickups as a rider,
-  and watching notifications arrive, all in real time (polls every 2s).
+- Open **http://localhost:8081** - a small web app split into three
+  independent apps, one per role, each with its own sign-in (name only,
+  remembered via `localStorage` across reloads):
+  - **Customer** - browse a restaurant's menu, add items to a cart, place
+    the order, and watch it move through a live status stepper.
+  - **Restaurant** - a dispatch board that confirms, prepares, and marks
+    orders ready. It never creates orders itself - that's the customer's
+    job, same as a real ordering app.
+  - **Rider** - browse open pickups, accept one, and mark it delivered.
+  All three (and curl/Postman) read and write the exact same order-service
+  API, so mixing terminal commands and the browser during a demo always
+  shows consistent, live state.
 - Run the guided demo script: `./postman/demo.sh`
 - Or import `postman/demo-requests.http` into Postman / VS Code REST Client
   and step through the requests one at a time.
@@ -72,7 +81,8 @@ for the other three services. Then either:
 
 ### What to show in the demo
 
-1. `POST /orders` on **order-service** (`:4000`) creates an order.
+1. As the **customer**, order food through the web app (or `POST /orders`
+   directly on **order-service**, `:4000`).
 2. `PATCH /orders/:id/status` walks it through
    `CONFIRMED → READY_FOR_PICKUP → PICKED_UP → DELIVERED`.
 3. Each status change publishes one Kafka event - watch the terminal logs

@@ -17,37 +17,33 @@
       <nav class="topnav">
         <span class="nav-item active">Rider</span>
       </nav>
+      <div class="topbar-right hidden" id="sessionBar">
+        <span class="session-name" id="sessionName"></span>
+        <button class="btn btn-ghost" id="signOutBtn">Sign out</button>
+      </div>
     </header>
 
-    <main class="narrow-layout">
-      <div class="identify-card" id="identifyCard">
-        <h2>Sign in as a rider</h2>
+    <div class="identify-screen" id="identifyCard">
+      <div class="identify-card">
+        <h2>Rider sign in</h2>
         <p class="muted">Enter your name to see available pickups.</p>
         <form id="identifyForm">
-          <input type="text" id="riderIdInput" placeholder="e.g. Nok-29" required />
-          <button type="submit" class="btn btn-primary">Go online</button>
+          <input type="text" id="riderIdInput" placeholder="Full name" required />
+          <button type="submit" class="btn btn-primary">Continue</button>
         </form>
       </div>
+    </div>
 
-      <div id="riderView" class="hidden">
-        <div class="tracking-head">
-          <div>
-            <div class="muted">Signed in as</div>
-            <h2 id="riderLabel">&mdash;</h2>
-          </div>
-          <button class="btn btn-ghost" id="signOutBtn">Sign out</button>
-        </div>
+    <main class="narrow-layout hidden" id="riderView">
+      <section class="rider-section">
+        <h3>Available Pickups</h3>
+        <div id="poolList" class="rider-grid"></div>
+      </section>
 
-        <section class="rider-section">
-          <h3>Available Pickups</h3>
-          <div id="poolList" class="rider-grid"></div>
-        </section>
-
-        <section class="rider-section">
-          <h3>My Deliveries</h3>
-          <div id="myList" class="rider-grid"></div>
-        </section>
-      </div>
+      <section class="rider-section">
+        <h3>My Deliveries</h3>
+        <div id="myList" class="rider-grid"></div>
+      </section>
     </main>
   </div>
 

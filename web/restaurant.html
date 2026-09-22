@@ -17,91 +17,76 @@
       <nav class="topnav">
         <span class="nav-item active">Restaurant</span>
       </nav>
-      <div class="topbar-right">
-        <button class="btn btn-primary" id="newOrderBtn">New Order</button>
+      <div class="topbar-right hidden" id="sessionBar">
+        <span class="session-name" id="sessionName"></span>
+        <button class="btn btn-ghost" id="signOutBtn">Sign out</button>
       </div>
     </header>
 
-    <section class="stats">
-      <div class="stat-card">
-        <div class="stat-value" id="statActive">0</div>
-        <div class="stat-label">Active Orders</div>
+    <div class="identify-screen" id="identifyCard">
+      <div class="identify-card">
+        <h2>Staff sign in</h2>
+        <p class="muted">Enter your name to open the dispatch board.</p>
+        <form id="identifyForm">
+          <input type="text" id="staffNameInput" placeholder="Full name" required />
+          <button type="submit" class="btn btn-primary">Continue</button>
+        </form>
       </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statReady">0</div>
-        <div class="stat-label">Awaiting Rider</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statTransit">0</div>
-        <div class="stat-label">Out for Delivery</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="statDelivered">0</div>
-        <div class="stat-label">Delivered Today</div>
-      </div>
-    </section>
+    </div>
 
-    <main class="layout layout-full">
-      <section class="board-panel">
-        <div class="panel-header">
-          <h2>Order Board</h2>
-          <span class="panel-hint">You manage orders up through "Ready" &mdash; riders take it from there.</span>
+    <div id="boardView" class="hidden">
+      <section class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="statActive">0</div>
+          <div class="stat-label">Active Orders</div>
         </div>
-        <div class="board" id="board">
-          <div class="board-col" data-status="PLACED">
-            <div class="board-col-head"><span class="dot dot-gray"></span>Placed</div>
-            <div class="board-col-body" id="col-PLACED"></div>
-          </div>
-          <div class="board-col" data-status="CONFIRMED">
-            <div class="board-col-head"><span class="dot dot-blue"></span>Confirmed</div>
-            <div class="board-col-body" id="col-CONFIRMED"></div>
-          </div>
-          <div class="board-col" data-status="PREPARING">
-            <div class="board-col-head"><span class="dot dot-amber"></span>Preparing</div>
-            <div class="board-col-body" id="col-PREPARING"></div>
-          </div>
-          <div class="board-col" data-status="READY_FOR_PICKUP">
-            <div class="board-col-head"><span class="dot dot-green"></span>Ready</div>
-            <div class="board-col-body" id="col-READY_FOR_PICKUP"></div>
-          </div>
-          <div class="board-col" data-status="PICKED_UP">
-            <div class="board-col-head"><span class="dot dot-purple"></span>Out for Delivery</div>
-            <div class="board-col-body" id="col-PICKED_UP"></div>
-          </div>
-          <div class="board-col" data-status="DELIVERED">
-            <div class="board-col-head"><span class="dot dot-teal"></span>Delivered</div>
-            <div class="board-col-body" id="col-DELIVERED"></div>
-          </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statReady">0</div>
+          <div class="stat-label">Awaiting Rider</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statTransit">0</div>
+          <div class="stat-label">Out for Delivery</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statDelivered">0</div>
+          <div class="stat-label">Delivered Today</div>
         </div>
       </section>
-    </main>
-  </div>
 
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal">
-      <div class="modal-head">
-        <h3>Create Order</h3>
-        <button class="icon-btn" id="closeModalBtn">&times;</button>
-      </div>
-      <form id="newOrderForm">
-        <label>Restaurant</label>
-        <select id="restaurantId" required>
-          <option value="resto-1">Baan Thai Kitchen</option>
-          <option value="resto-2">Golden Wok</option>
-          <option value="resto-3">Riverside Grill</option>
-        </select>
-
-        <label>Customer name</label>
-        <input type="text" id="customerId" placeholder="e.g. Aye Chan" required />
-
-        <label>Items (comma separated)</label>
-        <input type="text" id="items" placeholder="e.g. Pad Thai, Thai Iced Tea" required />
-
-        <div class="modal-actions">
-          <button type="button" class="btn btn-ghost" id="cancelModalBtn">Cancel</button>
-          <button type="submit" class="btn btn-primary">Place Order</button>
-        </div>
-      </form>
+      <main class="layout layout-full">
+        <section class="board-panel">
+          <div class="panel-header">
+            <h2>Order Board</h2>
+          </div>
+          <div class="board" id="board">
+            <div class="board-col" data-status="PLACED">
+              <div class="board-col-head"><span class="dot dot-gray"></span>Placed</div>
+              <div class="board-col-body" id="col-PLACED"></div>
+            </div>
+            <div class="board-col" data-status="CONFIRMED">
+              <div class="board-col-head"><span class="dot dot-blue"></span>Confirmed</div>
+              <div class="board-col-body" id="col-CONFIRMED"></div>
+            </div>
+            <div class="board-col" data-status="PREPARING">
+              <div class="board-col-head"><span class="dot dot-amber"></span>Preparing</div>
+              <div class="board-col-body" id="col-PREPARING"></div>
+            </div>
+            <div class="board-col" data-status="READY_FOR_PICKUP">
+              <div class="board-col-head"><span class="dot dot-green"></span>Ready</div>
+              <div class="board-col-body" id="col-READY_FOR_PICKUP"></div>
+            </div>
+            <div class="board-col" data-status="PICKED_UP">
+              <div class="board-col-head"><span class="dot dot-purple"></span>Out for Delivery</div>
+              <div class="board-col-body" id="col-PICKED_UP"></div>
+            </div>
+            <div class="board-col" data-status="DELIVERED">
+              <div class="board-col-head"><span class="dot dot-teal"></span>Delivered</div>
+              <div class="board-col-body" id="col-DELIVERED"></div>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   </div>
 
