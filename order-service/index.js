@@ -19,7 +19,6 @@ const VALID_STATUSES = [
 const kafka = new Kafka({ clientId: "order-service", brokers: [KAFKA_BROKER] });
 const producer = kafka.producer();
 
-// In-memory order store, just enough state for the demo
 const orders = new Map();
 let nextId = 1;
 
@@ -76,10 +75,6 @@ async function main() {
     res.json(order);
   });
 
-  // This is the endpoint that models the "restaurant marks order ready"
-  // moment from the proposal: the order service is the only writer, and
-  // every other service finds out by consuming the Kafka event instead of
-  // being called directly.
   app.patch("/orders/:id/status", async (req, res) => {
     const order = orders.get(Number(req.params.id));
     if (!order) return res.status(404).json({ error: "order not found" });

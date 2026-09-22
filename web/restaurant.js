@@ -1,8 +1,6 @@
 const ORDER_API = "http://localhost:4000";
 const POLL_MS = 2000;
 
-// Restaurant only owns the order up through READY_FOR_PICKUP - PICKED_UP -> DELIVERED
-// is the rider's job, done from the Rider app instead.
 const STATUS_FLOW = {
   PLACED: { next: "CONFIRMED", label: "Confirm" },
   CONFIRMED: { next: "PREPARING", label: "Start Preparing" },
@@ -89,7 +87,6 @@ async function refreshOrders() {
   });
 }
 
-// Modal wiring
 const backdrop = document.getElementById("modalBackdrop");
 document.getElementById("newOrderBtn").addEventListener("click", () => backdrop.classList.add("open"));
 document.getElementById("closeModalBtn").addEventListener("click", () => backdrop.classList.remove("open"));

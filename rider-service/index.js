@@ -10,8 +10,6 @@ const GROUP_ID = "rider-service-group";
 const kafka = new Kafka({ clientId: "rider-service", brokers: [KAFKA_BROKER] });
 const consumer = kafka.consumer({ groupId: GROUP_ID });
 
-// Orders currently sitting in the "ready for pickup" pool, plus a log of
-// everything this service has ever seen (useful to prove replay works).
 const pickupPool = new Map();
 const eventLog = [];
 
@@ -51,7 +49,6 @@ async function main() {
 
   app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
-  // What a rider's app would poll to see available pickups
   app.get("/pickup-pool", (_req, res) => res.json(Array.from(pickupPool.values())));
 
   app.get("/events", (_req, res) => res.json(eventLog));
