@@ -33,9 +33,10 @@ Project2-Kafka-FoodDelivery/
 ├── notification-service/  # Kafka consumer -> simulated push/SMS log
 ├── docs/                  # architecture-diagram.svg, sequence-diagram.svg
 ├── postman/               # demo-requests.http + demo.sh (curl walkthrough)
+├── web/                   # dispatch console - a small dashboard UI for the demo
 ├── proposal/              # Proposal-2.docx (the 1-pager, worth 2%)
 ├── presentation/          # slide deck for the 10-minute presentation (8%)
-└── docker-compose.yml     # Kafka + Kafka UI + all four services
+└── docker-compose.yml     # Kafka + Kafka UI + all four services + web UI
 ```
 
 ## Technology of interest
@@ -60,6 +61,9 @@ docker compose up --build
 Wait until you see `[order-service] listening on :4000` and similar lines
 for the other three services. Then either:
 
+- Open the dispatch console at **http://localhost:8081** - a small web UI
+  for creating orders, advancing their status, claiming pickups as a rider,
+  and watching notifications arrive, all in real time (polls every 2s).
 - Run the guided demo script: `./postman/demo.sh`
 - Or import `postman/demo-requests.http` into Postman / VS Code REST Client
   and step through the requests one at a time.

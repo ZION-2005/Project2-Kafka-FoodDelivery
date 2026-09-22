@@ -79,3 +79,13 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+
+  web:
+    build: ./web
+    container_name: web
+    ports:
+      - "8081:80"
+    depends_on:
+      - order-service
+      - rider-service
+      - notification-service

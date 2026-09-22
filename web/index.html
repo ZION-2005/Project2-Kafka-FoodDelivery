@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saffron &middot; Dispatch Console</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">S</span>
+        <span class="brand-name">Saffron</span>
+      </div>
+      <nav class="topnav">
+        <span class="nav-item active">Dispatch</span>
+        <span class="nav-item">Riders</span>
+        <span class="nav-item">Support</span>
+      </nav>
+      <div class="topbar-right">
+        <button class="btn btn-primary" id="newOrderBtn">New Order</button>
+        <button class="icon-btn" id="notifBellBtn" title="Notifications">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge" id="notifBadge">0</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="statActive">0</div>
+        <div class="stat-label">Active Orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statReady">0</div>
+        <div class="stat-label">Awaiting Rider</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statTransit">0</div>
+        <div class="stat-label">Out for Delivery</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statDelivered">0</div>
+        <div class="stat-label">Delivered Today</div>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="board-panel">
+        <div class="panel-header">
+          <h2>Order Board</h2>
+        </div>
+        <div class="board" id="board">
+          <div class="board-col" data-status="PLACED">
+            <div class="board-col-head"><span class="dot dot-gray"></span>Placed</div>
+            <div class="board-col-body" id="col-PLACED"></div>
+          </div>
+          <div class="board-col" data-status="CONFIRMED">
+            <div class="board-col-head"><span class="dot dot-blue"></span>Confirmed</div>
+            <div class="board-col-body" id="col-CONFIRMED"></div>
+          </div>
+          <div class="board-col" data-status="PREPARING">
+            <div class="board-col-head"><span class="dot dot-amber"></span>Preparing</div>
+            <div class="board-col-body" id="col-PREPARING"></div>
+          </div>
+          <div class="board-col" data-status="READY_FOR_PICKUP">
+            <div class="board-col-head"><span class="dot dot-green"></span>Ready</div>
+            <div class="board-col-body" id="col-READY_FOR_PICKUP"></div>
+          </div>
+          <div class="board-col" data-status="PICKED_UP">
+            <div class="board-col-head"><span class="dot dot-purple"></span>Out for Delivery</div>
+            <div class="board-col-body" id="col-PICKED_UP"></div>
+          </div>
+          <div class="board-col" data-status="DELIVERED">
+            <div class="board-col-head"><span class="dot dot-teal"></span>Delivered</div>
+            <div class="board-col-body" id="col-DELIVERED"></div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div class="side-card">
+          <div class="side-card-head">
+            <h3>Rider Network</h3>
+            <span class="pill" id="riderCount">0 open</span>
+          </div>
+          <div class="rider-list" id="riderList">
+            <div class="empty-state">No pickups waiting right now.</div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <div class="side-card-head">
+            <h3>Notifications</h3>
+          </div>
+          <div class="notif-list" id="notifList">
+            <div class="empty-state">Nothing sent yet.</div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Create Order</h3>
+        <button class="icon-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <form id="newOrderForm">
+        <label>Restaurant</label>
+        <select id="restaurantId" required>
+          <option value="resto-1">Baan Thai Kitchen</option>
+          <option value="resto-2">Golden Wok</option>
+          <option value="resto-3">Riverside Grill</option>
+        </select>
+
+        <label>Customer name</label>
+        <input type="text" id="customerId" placeholder="e.g. Aye Chan" required />
+
+        <label>Items (comma separated)</label>
+        <input type="text" id="items" placeholder="e.g. Pad Thai, Thai Iced Tea" required />
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Place Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
