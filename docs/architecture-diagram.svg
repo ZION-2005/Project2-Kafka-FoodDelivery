@@ -1,38 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="800" viewBox="0 0 1500 800"><defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#222" stroke-width="1.5"/></marker></defs><rect width="1500" height="800" fill="white"/><g font-family="Arial, Helvetica, sans-serif" fill="#222">
-<text x="750" y="48" text-anchor="middle" font-size="28" font-weight="bold">Food delivery system architecture</text>
-<rect x="35" y="320" width="235" height="110" fill="white" stroke="#222" stroke-width="1.6"/>
-<text x="152.5" y="352" text-anchor="middle" font-size="21" font-weight="bold">Restaurant</text>
-<text x="152.5" y="381" text-anchor="middle" font-size="18" font-weight="normal">Postman or curl</text>
-<rect x="350" y="320" width="255" height="110" fill="white" stroke="#222" stroke-width="1.6"/>
-<text x="477.5" y="352" text-anchor="middle" font-size="21" font-weight="bold">Order Service</text>
-<text x="477.5" y="381" text-anchor="middle" font-size="18" font-weight="normal">Producer</text>
-<rect x="685" y="295" width="300" height="160" fill="white" stroke="#222" stroke-width="1.6"/>
-<text x="835.0" y="327" text-anchor="middle" font-size="21" font-weight="bold">Apache Kafka</text>
-<text x="835.0" y="356" text-anchor="middle" font-size="18" font-weight="normal">Topic</text>
-<text x="835.0" y="385" text-anchor="middle" font-size="18" font-weight="normal">order.status.updated</text>
-<rect x="1130" y="145" width="330" height="125" fill="white" stroke="#222" stroke-width="1.6"/>
-<text x="1295.0" y="177" text-anchor="middle" font-size="21" font-weight="bold">Customer Service</text>
-<text x="1295.0" y="206" text-anchor="middle" font-size="18" font-weight="normal">Consumer</text>
-<text x="1295.0" y="235" text-anchor="middle" font-size="18" font-weight="normal">Updates customer feed</text>
-<rect x="1130" y="315" width="330" height="125" fill="white" stroke="#222" stroke-width="1.6"/>
-<text x="1295.0" y="347" text-anchor="middle" font-size="21" font-weight="bold">Rider Service</text>
-<text x="1295.0" y="376" text-anchor="middle" font-size="18" font-weight="normal">Consumer</text>
-<text x="1295.0" y="405" text-anchor="middle" font-size="18" font-weight="normal">Updates pickup pool</text>
-<rect x="1130" y="485" width="330" height="125" fill="white" stroke="#222" stroke-width="1.6"/>
-<text x="1295.0" y="517" text-anchor="middle" font-size="21" font-weight="bold">Notification Service</text>
-<text x="1295.0" y="546" text-anchor="middle" font-size="18" font-weight="normal">Consumer</text>
-<text x="1295.0" y="575" text-anchor="middle" font-size="18" font-weight="normal">Records simulated alerts</text>
-<polyline points="270,375 350,375" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
-<text x="310" y="345" text-anchor="middle" font-size="17" font-weight="normal">HTTP</text>
-<polyline points="605,375 685,375" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
-<text x="645" y="345" text-anchor="middle" font-size="17" font-weight="normal">Publish</text>
-<polyline points="985,375 1050,375 1050,207 1130,207" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
-<polyline points="985,375 1130,375" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
-<polyline points="985,375 1050,375 1050,547 1130,547" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
-<text x="1070" y="118" text-anchor="middle" font-size="18" font-weight="normal">Read events</text>
-<text x="1295" y="292" text-anchor="middle" font-size="16" font-weight="normal">Group: customer-service-group</text>
-<text x="1295" y="462" text-anchor="middle" font-size="16" font-weight="normal">Group: rider-service-group</text>
-<text x="1295" y="632" text-anchor="middle" font-size="16" font-weight="normal">Group: notification-service-group</text>
-<text x="750" y="716" text-anchor="middle" font-size="19" font-weight="normal">Each service runs in its own container. Each consumer group receives the order events independently.</text>
-<text x="750" y="750" text-anchor="middle" font-size="18" font-weight="normal">Arrows show event flow. Consumers fetch events from Kafka.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#222" stroke-width="1.5"/></marker></defs><rect width="1920" height="1080" fill="white"/><g font-family="Arial, Helvetica, sans-serif" fill="#222">
+<text x="960" y="78" text-anchor="middle" font-size="32" font-weight="bold">Food delivery system architecture</text>
+<rect x="60" y="220" width="340" height="145" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="230.0" y="263" text-anchor="middle" font-size="28" font-weight="bold">Customer App</text>
+<text x="230.0" y="305" text-anchor="middle" font-size="23" font-weight="normal">POST /orders</text>
+<rect x="60" y="465" width="340" height="145" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="230.0" y="508" text-anchor="middle" font-size="28" font-weight="bold">Restaurant App</text>
+<text x="230.0" y="550" text-anchor="middle" font-size="23" font-weight="normal">PATCH status</text>
+<text x="230.0" y="582" text-anchor="middle" font-size="23" font-weight="normal">Confirm → ready</text>
+<rect x="60" y="710" width="340" height="145" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="230.0" y="753" text-anchor="middle" font-size="28" font-weight="bold">Rider App</text>
+<text x="230.0" y="795" text-anchor="middle" font-size="23" font-weight="normal">PATCH status</text>
+<text x="230.0" y="827" text-anchor="middle" font-size="23" font-weight="normal">Picked up → delivered</text>
+<rect x="530" y="445" width="335" height="185" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="697.5" y="488" text-anchor="middle" font-size="28" font-weight="bold">Order Service</text>
+<text x="697.5" y="530" text-anchor="middle" font-size="23" font-weight="normal">Node.js + Express</text>
+<text x="697.5" y="562" text-anchor="middle" font-size="23" font-weight="normal">Kafka producer</text>
+<rect x="1000" y="425" width="360" height="225" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="1180.0" y="468" text-anchor="middle" font-size="28" font-weight="bold">Apache Kafka</text>
+<text x="1180.0" y="510" text-anchor="middle" font-size="23" font-weight="normal">Topic:</text>
+<text x="1180.0" y="542" text-anchor="middle" font-size="23" font-weight="normal">order.status.updated</text>
+<text x="1180.0" y="574" text-anchor="middle" font-size="23" font-weight="normal">Retains events</text>
+<rect x="1510" y="220" width="350" height="145" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="1685.0" y="263" text-anchor="middle" font-size="28" font-weight="bold">Customer Service</text>
+<text x="1685.0" y="305" text-anchor="middle" font-size="23" font-weight="normal">Updates customer feed</text>
+<rect x="1510" y="465" width="350" height="145" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="1685.0" y="508" text-anchor="middle" font-size="28" font-weight="bold">Rider Service</text>
+<text x="1685.0" y="550" text-anchor="middle" font-size="23" font-weight="normal">Updates pickup pool</text>
+<rect x="1510" y="710" width="350" height="145" fill="white" stroke="#222" stroke-width="1.6"/>
+<text x="1685.0" y="753" text-anchor="middle" font-size="28" font-weight="bold">Notification Service</text>
+<text x="1685.0" y="795" text-anchor="middle" font-size="23" font-weight="normal">Records simulated alerts</text>
+<polyline points="400,292 455,292 455,490 530,490" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<polyline points="400,537 530,537" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<polyline points="400,782 455,782 455,585 530,585" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<text x="465" y="428" text-anchor="middle" font-size="21" font-weight="normal">HTTP</text>
+<polyline points="865,537 1000,537" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<text x="932" y="516" text-anchor="middle" font-size="21" font-weight="normal">Publish</text>
+<polyline points="1360,490 1435,490 1435,292 1510,292" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<polyline points="1360,537 1510,537" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<polyline points="1360,585 1435,585 1435,782 1510,782" fill="none" stroke="#222" stroke-width="1.7" marker-end="url(#a)"/>
+<text x="1435" y="428" text-anchor="middle" font-size="21" font-weight="normal">Consume</text>
+<text x="960" y="960" text-anchor="middle" font-size="23" font-weight="normal">Each consumer service uses its own consumer group and reads events independently.</text>
+<text x="960" y="1004" text-anchor="middle" font-size="21" font-weight="normal">Apps are simulated with Postman or curl. Arrows show event flow; consumers fetch from Kafka.</text>
 </g></svg>
